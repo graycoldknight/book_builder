@@ -44,7 +44,6 @@ public:
         if (m_file.is_open())
         {
             m_file.close();
-            std::cout << "File " << m_fileName << " has been closed" << std::endl;
         }
     }
 

@@ -70,9 +70,17 @@ class BookConstructor{
                 std::string data = m_reader.readLine();
 
                 if (data == "")
+                {
+                    LOG_INFO(last_sequence_number << "," << order_book);
                     return;
+                }
 
                 Data data_(data);
+                if (last_sequence_number != data_.m_sequence_number)
+                {
+                    if(order_book.is_recovered())
+                        LOG_INFO(last_sequence_number << "," << order_book);
+                }
                 //data_.print();
 
                 switch (data_.m_action)
@@ -115,13 +123,8 @@ class BookConstructor{
                     }
 
                 }
-                if (last_sequence_number != data_.m_sequence_number)
-                {
-                    if(order_book.is_recovered())
-                        LOG_INFO(data_.m_sequence_number << "," << order_book);
-                }
+           
                 last_sequence_number = data_.m_sequence_number;
-
                 if (order_book.is_crossed())
                 {
                     LOG_ERROR("CROSSED BOOK");
